@@ -64,42 +64,55 @@ const bookList = [
   },
 ];
 
-console.log(' 1 to Borrow book\n', '2 to return borrowed book\n', '3 to see borrowed book\n')
-let input = prompt(" ");
-if(input === '1') {
-  // list all books in the store
-  let see = bookList.forEach((book) => {
-    const booksInStore = BookLibrary.add(book)
-    console.log(booksInStore.id, booksInStore.title);
-  })
-
-  let bookId = prompt("Enter book Id to borrow: ")
-  let borrowedB = BookLibrary.borrow(parseInt(bookId));
-  console.log(`you have borrowed: ${borrowedB.title}\n`)
-
-  const input2 = prompt('borrow another book: ')
-  const borrowedB2 = BookLibrary.borrow(parseInt(input2));
-  console.log(`you have borrowed: ${borrowedB2.title}\n`)
-
-  console.log("============ List of Borrowed Book ==============")
-  const test2 = BookLibrary.borrowedBooks.forEach((book) => {
-    console.log('\t',book.title);
-  })
+// Add books to the store
+bookList.forEach((book) => {
+  BookLibrary.add(book)
+})
 
 
-} else if(input === '2') {
-  // list all books in the borrowed shelf if there is any
-  // else indicate that the list is empty
-  const test22 = BookLibrary.borrowedBooks.forEach((book) => {
-    console.log(book.title);
-  })
-  
-} else if(input === 3) {
-  // list all books in the borrowed shelf if there is any
-  // else indicate that the list is empty
-} else {
-  // Ask the user to Input a valid number
+let choice = true;
+function userControl() {
+  while (choice) {
+    console.log(' 1 to Borrow book\n', '2 to return borrowed book\n', '3 to see borrowed book\n', '4 to quite')
+    let userChoice = prompt('');
+    switch (+userChoice) {
+      case 1:
+        // list all books in the store
+        console.log("________________________________________");
+        bookList.map((book, index) => {
+          console.log(index, '->\t', book.title);
+          console.log("________________________________________");
+        })
+        console.log("=========================================");
+        
+        let input1 = prompt("Enter book Id to borrow: ")
+        let borrowedB = BookLibrary.borrow(parseInt(input1));
+        console.log(` You Borrowed ${borrowedB.title}`)
+        console.log("________________________________________");
+        break;
+      case 2:
+        let input2 = prompt("Enter book Id to return: ")
+        let returnB = BookLibrary.returnBook(parseInt(input2));
+        console.log(`You have returned Book ${returnB.title}`)
+        console.log("________________________________________");
+        break;
+      case 3:
+        console.log('_____The books you have borrowed:_____')
+        BookLibrary.borrowedBooks.forEach((book) => {
+          console.log('\t', book.title);
+        })
+        console.log("________________________________________");
+        break;
+      case 4:
+        console.log("Bye");
+        console.log("________________________________________");
+        choice = false;
+    }
+  }
 }
+
+userControl();
+
 
 
 
